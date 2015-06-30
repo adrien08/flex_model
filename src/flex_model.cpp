@@ -9,7 +9,7 @@ using namespace std;
 FlexModel::FlexModel()
 {
 }
-void FlexModel::init_data(const Eigen::Matrix<double,7,1>& pos_ang ,const double charge)
+void FlexModel::init_data(const Matrix<double,7,1>& pos_ang ,const double charge)
 {
 	// param 	
 
@@ -131,7 +131,7 @@ Vector4d FlexModel::quaternionFromMatrix( const Matrix3d &M)
 	}
 }
 
-void FlexModel::dh_param(const Eigen::Matrix<double,7,1>& pos_ang ,
+void FlexModel::dh_param(const Matrix<double,7,1>& pos_ang ,
 		const double l[7] ,
 		Matrix<double,24,4> &transformation_matrix)
 {
@@ -194,20 +194,20 @@ void FlexModel::dh_param(const Eigen::Matrix<double,7,1>& pos_ang ,
 	}
 }
 
-Matrix<double, 7 , 1> FlexModel::rotation_model(Eigen::Vector3d &pos1,
-	       Eigen::Vector3d &pos2,
-	       Eigen::Vector3d &pos3,
-	       Eigen::Vector3d &pos4,
-	       Eigen::Vector3d &pos5,
-	       Eigen::Vector3d &pos6,
-	       Eigen::Vector3d &pos7,
-	       const Eigen::Matrix3d &R1,
-	       const Eigen::Matrix3d &R2,
-	       const Eigen::Matrix3d &R3,
-	       const Eigen::Matrix3d &R4,
-	       const Eigen::Matrix3d &R5,
-	       const Eigen::Matrix3d &R6,
-	       Eigen::Vector3d &Model)
+Matrix<double, 7 , 1> FlexModel::rotation_model(Vector3d &pos1,
+           Vector3d &pos2,
+           Vector3d &pos3,
+           Vector3d &pos4,
+           Vector3d &pos5,
+           Vector3d &pos6,
+           Vector3d &pos7,
+           const Matrix3d &R1,
+           const Matrix3d &R2,
+           const Matrix3d &R3,
+           const Matrix3d &R4,
+           const Matrix3d &R5,
+           const Matrix3d &R6,
+           Vector3d &Model)
 {
 
 	Model = pos7;

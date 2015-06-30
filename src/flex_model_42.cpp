@@ -1,6 +1,3 @@
-#include <iostream>
-#include <Eigen/Dense>
-#include <cmath>
 #include <flex_model_42.h>
 
 using namespace Eigen;

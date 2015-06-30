@@ -1,9 +1,6 @@
 #ifndef __FLEX_MODEL23_HPP__
 #define __FLEX_MODEL23_HPP__
 
-#include <iostream>
-#include <Eigen/Dense>
-#include <cmath>
 #include <flex_model.h>
 
 class flexmod23: public FlexModel{

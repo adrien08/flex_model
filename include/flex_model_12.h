@@ -1,12 +1,7 @@
 #ifndef __FLEX_MODEL12_HPP__
 #define __FLEX_MODEL12_HPP__
 
-#include <iostream>
-#include <Eigen/Dense>
-#include <cmath>
 #include <flex_model.h>
-
-
 
 class flexmod12: public FlexModel{
 
