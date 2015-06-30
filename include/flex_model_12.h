@@ -8,7 +8,7 @@ class flexmod12: public FlexModel{
 public:
   flexmod12(){
   }
-  Eigen::Matrix<double, 7 , 1> compute(const Eigen::Matrix<double,7,1> &pos_ang,const double &charge);
+  void compute(const Eigen::Matrix<double,7,1> &pos_ang,const double &charge);
   
 };
 

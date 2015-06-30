@@ -22,7 +22,7 @@ int main()
 	// Param
 	const double pi = 3.14159265359;
 	Matrix<double,7,1> pos_ang;
-	pos_ang << 0,45,0,0,0,0,0;
+	pos_ang << 0,90,0,0,0,0,0;
 	pos_ang = (pi / 180) * pos_ang;
 	double charge = 5;
 	

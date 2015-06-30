@@ -5,7 +5,7 @@ using namespace Eigen;
 using namespace std;
 
 
-Matrix<double, 7 , 1> flexmod23::compute(const Matrix<double,7,1> &pos_ang,const double &charge)
+void flexmod23::compute(const Matrix<double,7,1> &pos_ang,const double &charge)
 {
 	init_data(pos_ang, charge);
 	/* stiffness parameter */
@@ -103,5 +103,5 @@ Matrix<double, 7 , 1> flexmod23::compute(const Matrix<double,7,1> &pos_ang,const
 	       R5,
 	       R6,
 	       Model);
-	return corr_trans_rot;
+	return ;
 }
