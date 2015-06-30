@@ -1,6 +1,7 @@
 # Created by https://www.gitignore.io
 
-build 
+build/
+*.txt.user
 
 ### C++ ###
 # Compiled Object files
