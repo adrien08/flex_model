@@ -10,7 +10,7 @@ include_directories(include
     ${EIGEN_INCLUDE_DIRS}
 )
 
-add_library(flex_model
+add_library(flex_model SHARED
    src/flex_model.cpp
    src/flex_model_12.cpp
    src/flex_model_23.cpp
