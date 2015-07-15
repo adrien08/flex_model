@@ -1,14 +1,11 @@
 #include <iostream>
 #include <Eigen/Dense>
 #include <cmath>
-#include <flex_model.h>
+#include <lwr_flex_models/flex_model.h>
 
 using namespace Eigen;
 using namespace std;
 
-FlexModel::FlexModel()
-{
-}
 void FlexModel::init_data(const Matrix<double,7,1>& pos_ang ,const double charge)
 {
 	// param 	

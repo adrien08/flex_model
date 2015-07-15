@@ -1,4 +1,4 @@
-#include <flex_model_42.h>
+#include <lwr_flex_models/flex_model_42.h>
 
 using namespace Eigen;
 using namespace std;

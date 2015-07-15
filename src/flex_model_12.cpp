@@ -1,9 +1,8 @@
-#include <flex_model_12.h>
+#include <lwr_flex_models/flex_model_12.h>
 
 
 using namespace Eigen;
 using namespace std;
-
 
 void flexmod12::compute(const Matrix<double,7,1> &pos_ang,const double &charge)
 {

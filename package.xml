@@ -1,0 +1,11 @@
+<package>
+  <name>lwr_flex_models</name>
+  <version>1.0.0</version>
+  <description>
+    This package provides flexibility models for the Kuka LWR 4+ at ISIR.
+  </description>
+  <maintainer email="adrien.hereau@gmail.com">Adrien Hereau</maintainer>
+  <license>GPL</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+</package>

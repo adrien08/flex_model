@@ -1,4 +1,4 @@
-#include <flex_model_23.h>
+#include <lwr_flex_models/flex_model_23.h>
 
 
 using namespace Eigen;

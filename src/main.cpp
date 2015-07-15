@@ -1,10 +1,9 @@
 #include <iostream>
 #include <Eigen/Dense>
 #include <cmath>
-#include <flex_model.h>
-#include <flex_model_12.h>
-#include <flex_model_23.h>
-#include <flex_model_42.h>
+#include <lwr_flex_models/flex_model_12.h>
+#include <lwr_flex_models/flex_model_23.h>
+#include <lwr_flex_models/flex_model_42.h>
 #include <sys/time.h>
 
 using namespace Eigen;
