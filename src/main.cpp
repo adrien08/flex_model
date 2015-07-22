@@ -31,14 +31,14 @@ int main()
 	flexmod23 mod23;
 	flexmod42 mod42;
 	
-	
+	Eigen::Matrix<double,7,1> out12,out23,out42;
 	// Start timer
 	gettimeofday(&tbegin,NULL);
-	mod12.compute(pos_ang, charge);
+	mod12.compute(pos_ang, charge,out12);
 
-	mod23.compute(pos_ang, charge);
+	mod23.compute(pos_ang, charge,out23);
 	
-	mod42.compute(pos_ang, charge);
+	mod42.compute(pos_ang, charge,out42);
 	// End timer
 	gettimeofday(&tend,NULL);
 	
@@ -61,13 +61,13 @@ int main()
 	cout << "w" << endl;
 
 	cout << "La correction à apporter selon le modèle 12 est " << endl;
-	cout << mod12.corr_trans_rot << endl;
+	cout << out12 << endl;
 
 	cout << "La correction à apporter selon le modèle 23 est " << endl;
-	cout << mod23.corr_trans_rot << endl;
+	cout << out23 << endl;
 
 	cout << "La correction à apporter selon le modèle 42 est " << endl;
-	cout << mod42.corr_trans_rot << endl;
+	cout << out42 << endl;
 	
             
 

@@ -4,7 +4,7 @@ using namespace Eigen;
 using namespace std;
 
 
-void flexmod42::compute(const Matrix<double,7,1> &pos_ang,const double &charge)
+void flexmod42::compute(const Matrix<double,7,1> &pos_ang,const double &charge,Eigen::Matrix<double,7,1> &correction_pos_ang)
 {
 	init_data(pos_ang, charge);
 	/* stiffness parameter */

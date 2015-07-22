@@ -8,7 +8,7 @@ class FlexModel{
 public:
   FlexModel(){}
   // Methodes
-  virtual void compute(const Eigen::Matrix<double,7,1> &pos_ang,const double &charge)=0;
+  virtual void compute(const Eigen::Matrix<double,7,1> &pos_ang,const double &charge,Eigen::Matrix<double,7,1> &correction_pos_ang)=0;
   
   double norm2(const Eigen::Vector3d &x);
   

@@ -7,7 +7,7 @@ class flexmod42: public FlexModel{
 
 public:
   flexmod42(){}
-  void compute(const Eigen::Matrix<double,7,1> &pos_ang,const double &charge);
+  void compute(const Eigen::Matrix<double,7,1> &pos_ang,const double &charge,Eigen::Matrix<double,7,1> &correction_pos_ang);
 
 
   

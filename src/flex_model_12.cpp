@@ -4,7 +4,7 @@
 using namespace Eigen;
 using namespace std;
 
-void flexmod12::compute(const Matrix<double,7,1> &pos_ang,const double &charge)
+void flexmod12::compute(const Matrix<double,7,1> &pos_ang,const double &charge,Matrix<double,7,1> &correction_pos_ang)
 {
 	init_data(pos_ang, charge);
 	/* stiffness parameter */
@@ -68,7 +68,7 @@ void flexmod12::compute(const Matrix<double,7,1> &pos_ang,const double &charge)
 				break;
 		}
 	}
-	corr_trans_rot = rotation_model(joint_position1,
+	correction_pos_ang = rotation_model(joint_position1,
 	       joint_position2,
 	       joint_position3,
 	       joint_position4,
