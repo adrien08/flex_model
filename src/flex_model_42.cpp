@@ -3,10 +3,9 @@
 using namespace Eigen;
 using namespace std;
 
-
-void flexmod42::compute(const Matrix<double,7,1> &pos_ang,const double &charge,Eigen::Matrix<double,7,1> &correction_pos_ang)
+void flexmod42::compute(const Matrix<double,7,1> &pos_ang,const Eigen::Matrix<double,6,1> & effort,Eigen::Matrix<double,7,1> &correction_pos_ang)
 {
-	init_data(pos_ang, charge);
+	init_data(pos_ang, effort);
 	/* stiffness parameter */
 	double K[6][2] = 
 	{
@@ -19,33 +18,7 @@ void flexmod42::compute(const Matrix<double,7,1> &pos_ang,const double &charge,E
 	};
 	
 	/* initialisation problem */
-	/*double phi_x[6];
-	double phi_y[6];
-	double phi_axe[6];
-	double coeff_x[6];
-	double coeff_y[6];
-	double coeff_axe[6];
-	Matrix<double,1,6> tau;
-	Matrix3d R1_x;
-	Matrix3d R_x;
-	Matrix3d R1_y;
-	Matrix3d R_y;
-	Matrix3d R1_axe;
-	Matrix3d R_axe;
-	Matrix3d R1;
-	Matrix3d R2;
-	Matrix3d R3;
-	Matrix3d R4;
-	Matrix3d R5;
-	Matrix3d R6;
-	Matrix3d T_int;
-	Matrix3d R;
-	Vector3d Model;
-	Matrix3d Model_orientation;
-	Vector4d quat_corr;
-	Vector3d corr_model;
-	Matrix<double,7,1> corr_trans_rot;*/
-
+	
 	Vector3d pos1;
 	pos1 = joint_position1;
 	Vector3d pos2;
@@ -85,28 +58,28 @@ void flexmod42::compute(const Matrix<double,7,1> &pos_ang,const double &charge,E
 
 
 	/* correction coefficient */
-	coeff_axe[0] = ( t1_axe .cross( t1_axe)) .dot( pos7 - pos1 ) / norm2(pos7 - pos1);
-	coeff_axe[1] = ( t1_axe .cross( t2_axe)) .dot( pos7 - pos2 ) / norm2(pos7 - pos2);
-	coeff_axe[2] = ( t1_axe .cross( t3_axe)) .dot( pos7 - pos3 ) / norm2(pos7 - pos3);
-	coeff_axe[3] = ( t1_axe .cross( t4_axe)) .dot( pos7 - pos4 ) / norm2(pos7 - pos4);
-	coeff_axe[4] = ( t1_axe .cross( t5_axe)) .dot( pos7 - pos5 ) / norm2(pos7 - pos5);
-	coeff_axe[5] = ( t1_axe .cross( t6_axe)) .dot( pos7 - pos6 ) / norm2(pos7 - pos6);
+	coeff_axe[0] = ( -torque_0 .dot( t1_axe)); 
+	coeff_axe[1] = ( -torque_1 .dot( t2_axe)); 
+	coeff_axe[2] = ( -torque_2 .dot( t3_axe));
+	coeff_axe[3] = ( -torque_3 .dot( t4_axe));
+	coeff_axe[4] = ( -torque_4 .dot( t5_axe));
+	coeff_axe[5] = ( -torque_5 .dot( t6_axe));
 
-	coeff_x[0] = ( t1_axe .cross( t1_x)) .dot( pos7 - pos1 ) / norm2(pos7 - pos1);
-	coeff_x[1] = ( t1_axe .cross( t2_x)) .dot( pos7 - pos2 ) / norm2(pos7 - pos2);
-	coeff_x[2] = ( t1_axe .cross( t3_x)) .dot( pos7 - pos3 ) / norm2(pos7 - pos3);
-	coeff_x[3] = ( t1_axe .cross( t4_x)) .dot( pos7 - pos4 ) / norm2(pos7 - pos4);
-	coeff_x[4] = ( t1_axe .cross( t5_x)) .dot( pos7 - pos5 ) / norm2(pos7 - pos5);
-	coeff_x[5] = ( t1_axe .cross( t6_x)) .dot( pos7 - pos6 ) / norm2(pos7 - pos6);
+	coeff_x[0] = ( -torque_0 .dot( t1_x));
+	coeff_x[1] = ( -torque_1 .dot( t2_x));
+	coeff_x[2] = ( -torque_2 .dot( t3_x));
+	coeff_x[3] = ( -torque_3 .dot( t4_x));
+	coeff_x[4] = ( -torque_4 .dot( t5_x));
+	coeff_x[5] = ( -torque_5 .dot( t6_x));
 
-	coeff_y[0] = ( t1_axe .cross( t1_y)) .dot( pos7 - pos1 ) / norm2(pos7 - pos1);
-	coeff_y[1] = ( t1_axe .cross( t2_y)) .dot( pos7 - pos2 ) / norm2(pos7 - pos2);
-	coeff_y[2] = ( t1_axe .cross( t3_y)) .dot( pos7 - pos3 ) / norm2(pos7 - pos3);
-	coeff_y[3] = ( t1_axe .cross( t4_y)) .dot( pos7 - pos4 ) / norm2(pos7 - pos4);
-	coeff_y[4] = ( t1_axe .cross( t5_y)) .dot( pos7 - pos5 ) / norm2(pos7 - pos5);
-	coeff_y[5] = ( t1_axe .cross( t6_y)) .dot( pos7 - pos6 ) / norm2(pos7 - pos6);
+	coeff_y[0] = ( -torque_0 .dot( t1_y));
+	coeff_y[1] = ( -torque_1 .dot( t2_y));
+	coeff_y[2] = ( -torque_2 .dot( t3_y));
+	coeff_y[3] = ( -torque_3 .dot( t4_y));
+	coeff_y[4] = ( -torque_4 .dot( t5_y));
+	coeff_y[5] = ( -torque_5 .dot( t6_y));
 	
-
+	
 
 	/* deflection angle */
 	tau = torque;
@@ -116,15 +89,13 @@ void flexmod42::compute(const Matrix<double,7,1> &pos_ang,const double &charge,E
 		phi_y[j] = coeff_y[j] * tau(j) / ( K[j][1] * 1000 );
 		phi_axe[j] = coeff_axe[j] * tau(j) / ( K[j][0] * 1000 );
 	}
-
-
 	/* rotation matrix */
 
 
 	R1_x << 1,0,0, 0,cos(phi_x[0]),sin(phi_x[0]), 0,-sin(phi_x[0]),cos(phi_x[0]);
 	R1_y << cos(phi_y[0]),0,-sin(phi_y[0]), 0,1,0, sin(phi_y[0]),0,cos(phi_y[0]);
-	R1_axe << 1,0,0, 0,1,0, 0,0,1;
-	R1 = R1_x * R1_y * R1_axe;
+	R1_axe << cos(phi_axe[0]),sin(phi_axe[0]),0, -sin(phi_axe[0]),cos(phi_axe[0]),0, 0,0,1;
+	R1 = R1_x * R1_y * R1_axe;  // approximation des angles faibles
 
 	for (int j = 1 ; j<6 ; j++)
 	{
@@ -136,7 +107,7 @@ void flexmod42::compute(const Matrix<double,7,1> &pos_ang,const double &charge,E
 			transformation_matrix(4*(j-1)+1,0), transformation_matrix(4*(j-1)+1,1), transformation_matrix(4*(j-1)+1,2),
 			transformation_matrix(4*(j-1)+2,0), transformation_matrix(4*(j-1)+2,1), transformation_matrix(4*(j-1)+2,2);
 
-		R = T_int * R_x * R_y * R_axe * T_int.transpose();
+		R = T_int * R_x * R_y * R_axe * T_int.transpose(); // approximation des angles faibles
 	
 		switch (j) {
 			case 1 : R2 = R;

@@ -8,11 +8,10 @@ class FlexModel{
 public:
   FlexModel(){}
   // Methodes
-  virtual void compute(const Eigen::Matrix<double,7,1> &pos_ang,const double &charge,Eigen::Matrix<double,7,1> &correction_pos_ang)=0;
+  virtual void compute(const Eigen::Matrix<double,7,1> &pos_ang,const Eigen::Matrix<double,6,1> & effort,Eigen::Matrix<double,7,1> &correction_pos_ang)=0;
+
   
-  double norm2(const Eigen::Vector3d &x);
-  
-  void init_data(const Eigen::Matrix<double,7,1>& pos_ang ,const double charge);
+  void init_data(const Eigen::Matrix<double,7,1>& pos_ang,const Eigen::Matrix<double,6,1> & effort);
   
   Eigen::Matrix<double,7,1> rotation_model(Eigen::Vector3d &pos1,
 	       Eigen::Vector3d &pos2,
@@ -29,6 +28,8 @@ public:
 	       const Eigen::Matrix3d &R6,
 	       Eigen::Vector3d &Model);
   
+   Eigen::Vector3d normalize(Eigen::Vector3d &x);
+  
    void dh_param(const Eigen::Matrix<double,7,1>& pos_ang ,
 		const double l[7],
 		Eigen::Matrix<double,24,4> &transformation_matrix);
@@ -38,6 +39,12 @@ public:
  // Atributs
 	Eigen::Matrix<double, 24 , 4> transformation_matrix;
 	Eigen::Matrix<double,6,1> torque;
+	Eigen::Vector3d torque_1;
+	Eigen::Vector3d torque_2;
+	Eigen::Vector3d torque_3;
+	Eigen::Vector3d torque_4;
+	Eigen::Vector3d torque_5;
+	Eigen::Vector3d torque_0;
 	Eigen::Vector3d joint_position1;
 	Eigen::Vector3d joint_position2;
 	Eigen::Vector3d joint_position3;
@@ -51,6 +58,8 @@ public:
 	Eigen::Matrix<double,7,1> mod_42;
 	double pi;
 	double F;
+	Eigen::Vector3d force;
+	Eigen::Vector3d moment;
 	double l[7];
 	double l_bar3;
 	double l_bar2;

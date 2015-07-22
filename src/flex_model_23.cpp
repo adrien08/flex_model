@@ -5,29 +5,13 @@ using namespace Eigen;
 using namespace std;
 
 
-void flexmod23::compute(const Matrix<double,7,1> &pos_ang,const double &charge,Eigen::Matrix<double,7,1> &correction_pos_ang)
+void flexmod23::compute(const Matrix<double,7,1> &pos_ang,const Eigen::Matrix<double,6,1> & effort,Eigen::Matrix<double,7,1> &correction_pos_ang)
 {
-	init_data(pos_ang, charge);
+	init_data(pos_ang, effort);
 	/* stiffness parameter */
 	double K[6] = {5.106E4 , 4.273E4 , 4.223E4 , 4.146E4 , 4.344E4 , 4.370E4};
 
 	/* initialisation problem */
-	/*double phi[6];
-	double adj[6];
-	Matrix3d R1;
-	Matrix3d R2;
-	Matrix3d R3;
-	Matrix3d R4;
-	Matrix3d R5;
-	Matrix3d R6;
-	Matrix3d R_int;
-	Matrix3d T_int;
-	Matrix3d R;
-	Vector3d Model;
-	Matrix3d Model_orientation;
-	Vector4d quat_corr;
-	Vector3d corr_model;
-	Matrix<double,7,1> corr_trans_rot;*/
 
 	Vector3d pos1;
 	pos1 = joint_position1;

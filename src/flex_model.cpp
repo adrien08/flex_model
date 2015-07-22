@@ -6,18 +6,31 @@
 using namespace Eigen;
 using namespace std;
 
-void FlexModel::init_data(const Matrix<double,7,1>& pos_ang ,const double charge)
+
+Vector3d FlexModel::normalize(Vector3d &x)
+{
+  if (x.norm() == 0){
+    return x;
+  }
+  else{
+    return x / x.norm();
+  }
+}
+
+void FlexModel::init_data(const Matrix<double,7,1>& pos_ang ,const Eigen::Matrix<double,6,1> & effort)
 {
 	// param 	
 
 	pi = 3.14159265359;
 
 	// parameters of the experience
-
-	F = 9.81 * charge;
-
+	Vector3d force;
+	force << effort(0) , effort(1) , effort(2);
+	Vector3d moment;
+	moment << effort(3) , effort(4) , effort(5);
+	moment = moment * 1000; // passage en N.mm
+	
 	// length of the arms
-	for (int i ; i<7 ; i++){
 	l[0] = 110.0;
 	l[1] = 200.0;
 	l[2] = 200.0;
@@ -25,12 +38,11 @@ void FlexModel::init_data(const Matrix<double,7,1>& pos_ang ,const double charge
 	l[4] = 200.0;
 	l[5] = 190.0;
 	l[6] = 133.1547 + 107.2 - 58.4; // link-6 to ati_polaris_link
+	
 	l_bar3 = l[3]/(l[2]+l[3]);
 	l_bar2 = l[2]/(l[2]+l[3]);
 	l_bar5 = l[5]/(l[4]+l[5]);
 	l_bar4 = l[4]/(l[4]+l[5]);
-	}
-
 	// launch DH parameters
 
 	dh_param(pos_ang , l, transformation_matrix);
@@ -53,18 +65,28 @@ void FlexModel::init_data(const Matrix<double,7,1>& pos_ang ,const double charge
 
 	// torque (general expression)
 
-	torque(0) = F * norm2( joint_position7 - joint_position1 );
-	torque(1) = F * norm2( joint_position7 - joint_position2 );
-	torque(2) = F * norm2( joint_position7 - joint_position3 );
-	torque(3) = F * norm2( joint_position7 - joint_position4 );
-	torque(4) = F * norm2( joint_position7 - joint_position5 );
-	torque(5) = F * norm2( joint_position7 - joint_position6 );
+	torque_0 = moment + (joint_position7 - joint_position1).cross(force);
+	torque_1 = moment + (joint_position7 - joint_position2).cross(force);
+	torque_2 = moment + (joint_position7 - joint_position3).cross(force);
+	torque_3 = moment + (joint_position7 - joint_position4).cross(force);
+	torque_4 = moment + (joint_position7 - joint_position5).cross(force);
+	torque_5 = moment + (joint_position7 - joint_position6).cross(force);
+	
+	torque(0) = torque_0.norm();
+	torque(1) = torque_1.norm();
+	torque(2) = torque_2.norm();
+	torque(3) = torque_3.norm();
+	torque(4) = torque_4.norm();
+	torque(5) = torque_5.norm();
+	
+	torque_0 = normalize(torque_0);
+	torque_1 = normalize(torque_1);
+	torque_2 = normalize(torque_2);
+	torque_3 = normalize(torque_3);
+	torque_4 = normalize(torque_4);
+	torque_5 = normalize(torque_5);
 }
 
-double FlexModel::norm2(const Vector3d &x)
-{
-	return sqrt(x(0)*x(0) + x(1)*x(1));	
-}
 
 Vector4d FlexModel::quaternionFromMatrix( const Matrix3d &M)
 {

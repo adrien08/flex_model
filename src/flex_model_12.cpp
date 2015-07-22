@@ -4,13 +4,14 @@
 using namespace Eigen;
 using namespace std;
 
-void flexmod12::compute(const Matrix<double,7,1> &pos_ang,const double &charge,Matrix<double,7,1> &correction_pos_ang)
+void flexmod12::compute(const Matrix<double,7,1> &pos_ang,const Eigen::Matrix<double,6,1> & effort,Matrix<double,7,1> &correction_pos_ang)
 {
-	init_data(pos_ang, charge);
+	init_data(pos_ang, effort);
 	/* stiffness parameter */
 	double K[6] = {1.726E4 , 1.735E4 , 1.725E4 , 1.706E4 , 1.726E4 , 1.719E4};
 
 	/* axis orientation */
+	
 	Vector3d t1(0,0,1);
 	Vector3d t2(transformation_matrix(0,2),transformation_matrix(1,2),transformation_matrix(2,2));
 	Vector3d t3(transformation_matrix(4,2),transformation_matrix(5,2),transformation_matrix(6,2));
@@ -20,13 +21,17 @@ void flexmod12::compute(const Matrix<double,7,1> &pos_ang,const double &charge,M
 
 
 	/* correction coefficient */
-	coeff[0] = ( t1 .cross( t1)) .dot( joint_position7 - joint_position1 ) / norm2(joint_position7 - joint_position1);
-	coeff[1] = ( t1 .cross( t2)) .dot( joint_position7 - joint_position2 ) / norm2(joint_position7 - joint_position2);
-	coeff[2] = ( t1 .cross( t3)) .dot( joint_position7 - joint_position3 ) / norm2(joint_position7 - joint_position3);
-	coeff[3] = ( t1 .cross( t4)) .dot( joint_position7 - joint_position4 ) / norm2(joint_position7 - joint_position4);
-	coeff[4] = ( t1 .cross( t5)) .dot( joint_position7 - joint_position5 ) / norm2(joint_position7 - joint_position5);
-	coeff[5] = ( t1 .cross( t6)) .dot( joint_position7 - joint_position6 ) / norm2(joint_position7 - joint_position6);
-
+	Matrix<double,6,1> matrix0;
+	matrix0 << 0,0,0,0,0,0;
+	if (torque != matrix0)
+	
+	coeff[0] = -torque_0 .dot( t1);
+	coeff[1] = -torque_1 .dot( t2);
+	coeff[2] = -torque_2 .dot( t3);
+	coeff[3] = -torque_3 .dot( t4);
+	coeff[4] = -torque_4 .dot( t5);
+	coeff[5] = -torque_5 .dot( t6);
+	
 	/* deflection angle */
 	tau = torque;
 	for (int j = 0; j < 6; j++)
@@ -37,9 +42,9 @@ void flexmod12::compute(const Matrix<double,7,1> &pos_ang,const double &charge,M
 
 	/* rotation matrix */
 	
-	R1 << 1,0,0,
-	      0,1,0,
-	      0,0,1;
+	R1 << cos(phi[0]) , sin(phi[0]) , 0,
+	      -sin(phi[0]), cos(phi[0]), 0,
+	      0, 0, 1;
 	
 	for (int j = 1 ; j<6 ; j++)
 	{
