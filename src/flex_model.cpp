@@ -24,7 +24,7 @@ void FlexModel::init_data(const Matrix<double,7,1>& pos_ang ,const double charge
 	l[3] = 200.0;
 	l[4] = 200.0;
 	l[5] = 190.0;
-	l[6] = 133.1547;
+	l[6] = 133.1547 + 107.2 - 58.4; // link-6 to ati_polaris_link
 	l_bar3 = l[3]/(l[2]+l[3]);
 	l_bar2 = l[2]/(l[2]+l[3]);
 	l_bar5 = l[5]/(l[4]+l[5]);

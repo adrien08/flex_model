@@ -89,7 +89,7 @@ void flexmod23::compute(const Matrix<double,7,1> &pos_ang,const double &charge,E
 		}
 	}
 		
-	corr_trans_rot = FlexModel::rotation_model(joint_position1,
+	correction_pos_ang = rotation_model(joint_position1,
 	       joint_position2,
 	       joint_position3,
 	       joint_position4,
