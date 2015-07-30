@@ -1,10 +1,9 @@
-inputs : angular positions (vector 7d) and charge (double)
+inputs : angular positions (vector 7d) and charge (vector 6d : Fx, Fy, Fz, Cx, Cy and Cz)
 
-3 models are available :
+2 models are available :
 -model12 with classic stiffness model at each joint
--model23 with isotropic stiffness at each joint
 -model42 with anisotropic stiffness at each joint
 
 stiffness parameters depends on the model chosen
 
-outputs : correction of position and orientation (vector 7d : 3 double to position and 4 double to orientation) to bring to the effector (depending on the model chosen)
+outputs : correction of position and orientation (vector 7d : 3 double for position and 4 double for orientation) to bring to the effector (depending on the model chosen)
